@@ -8,7 +8,11 @@ const HowItWorks = () => {
     <>
       <div className="howitworks">
         <div className="container">
+<<<<<<< HEAD
           <h3>How SKILL-SAFARI Works</h3>
+=======
+          <h3>How Skillsafari Works</h3>
+>>>>>>> 3543ce773296d5e029134e143094c1cf53ef886a
           <div className="banner">
             <div className="card">
               <FaUserPlus />
