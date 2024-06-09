@@ -45,6 +45,10 @@ const jobSchema = new mongoose.Schema({
     minLength: [4, "Salary must contain at least 4 digits"],
     maxLength: [9, "Salary cannot exceed 9 digits"],
   },
+  interviewDate: {
+    type: Date,
+    required: [true, "Please provide an interview date."],
+  },
   expired: {
     type: Boolean,
     default: false,

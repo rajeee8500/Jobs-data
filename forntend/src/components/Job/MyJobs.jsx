@@ -12,7 +12,7 @@ const MyJobs = () => {
   const { isAuthorized, user } = useContext(Context);
 
   const navigateTo = useNavigate();
-  //Fetching all jobs
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -27,23 +27,20 @@ const MyJobs = () => {
       }
     };
     fetchJobs();
-  }, []);
+  }, [isAuthorized]);
+
   if (!isAuthorized || (user && user.role !== "Employer")) {
     navigateTo("/");
   }
 
-  //Function For Enabling Editing Mode
   const handleEnableEdit = (jobId) => {
-    //Here We Are Giving Id in setEditingMode because We want to enable only that job whose ID has been send.
     setEditingMode(jobId);
   };
 
-  //Function For Disabling Editing Mode
   const handleDisableEdit = () => {
     setEditingMode(null);
   };
 
-  //Function For Updating The Job
   const handleUpdateJob = async (jobId) => {
     const updatedJob = myJobs.find((job) => job._id === jobId);
     await axios
@@ -59,7 +56,6 @@ const MyJobs = () => {
       });
   };
 
-  //Function For Deleting Job
   const handleDeleteJob = async (jobId) => {
     await axios
       .delete(`http://localhost:5000/api/v1/job/delete/${jobId}`, {
@@ -75,7 +71,6 @@ const MyJobs = () => {
   };
 
   const handleInputChange = (jobId, field, value) => {
-    // Update the job object in the jobs state with the new value
     setMyJobs((prevJobs) =>
       prevJobs.map((job) =>
         job._id === jobId ? { ...job, [field]: value } : job
@@ -113,7 +108,6 @@ const MyJobs = () => {
                           />
                         </div>
                         <div>
-                          {" "}
                           <span>Country:</span>
                           <input
                             type="text"
@@ -302,9 +296,26 @@ const MyJobs = () => {
                             }
                           />
                         </div>
+                        <div>
+                          <span>Interview Date:</span>
+                          {element.interviewDate}
+                          <input
+                            type="date"
+                            value={element.interviewDate}
+                            disabled={
+                              editingMode !== element._id ? true : false
+                            }
+                            onChange={(e) =>
+                              handleInputChange(
+                                element._id,
+                                "interviewDate",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
-                    {/* Out Of Content Class */}
                     <div className="button_wrapper">
                       <div className="edit_btn_wrapper">
                         {editingMode === element._id ? (

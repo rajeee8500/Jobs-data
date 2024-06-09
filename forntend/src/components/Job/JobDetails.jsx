@@ -3,29 +3,52 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../main";
+
 const JobDetails = () => {
   const { id } = useParams();
   const [job, setJob] = useState({});
   const navigateTo = useNavigate();
-
   const { isAuthorized, user } = useContext(Context);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/v1/job/${id}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setJob(res.data.job);
-      })
-      .catch((error) => {
+    const fetchJobDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/v1/job/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(response.data.job); // Debugging line
+        setJob(response.data.job);
+      } catch (error) {
         navigateTo("/notfound");
-      });
-  }, []);
+      }
+    };
+
+    fetchJobDetails();
+  }, [id, navigateTo]);
 
   if (!isAuthorized) {
     navigateTo("/login");
   }
+
+  // Helper function to format date to "yyyy-MM-dd"
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${day}-${month}-${year}`;
+  };
+
+  const formattedInterviewDate = job.interviewDate
+    ? formatDate(job.interviewDate)
+    : "N/A";
+  const formattedJobPostedOn = job.jobPostedOn
+    ? formatDate(job.jobPostedOn)
+    : "N/A";
 
   return (
     <section className="jobDetail page">
@@ -51,7 +74,10 @@ const JobDetails = () => {
             Description: <span>{job.description}</span>
           </p>
           <p>
-            Job Posted On: <span>{job.jobPostedOn}</span>
+            Job Posted On: <span>{formattedJobPostedOn}</span>
+          </p>
+          <p>
+            Interview Date: <span>{formattedInterviewDate}</span>
           </p>
           <p>
             Salary:{" "}

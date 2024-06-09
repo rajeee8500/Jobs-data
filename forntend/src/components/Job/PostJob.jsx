@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../main";
+
 const PostJob = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -14,6 +15,7 @@ const PostJob = () => {
   const [salaryTo, setSalaryTo] = useState("");
   const [fixedSalary, setFixedSalary] = useState("");
   const [salaryType, setSalaryType] = useState("default");
+  const [interviewDate, setInterviewDate] = useState("");
 
   const { isAuthorized, user } = useContext(Context);
 
@@ -21,7 +23,7 @@ const PostJob = () => {
     e.preventDefault();
     if (salaryType === "Fixed Salary") {
       setSalaryFrom("");
-      setSalaryFrom("");
+      setSalaryTo("");
     } else if (salaryType === "Ranged Salary") {
       setFixedSalary("");
     } else {
@@ -29,36 +31,38 @@ const PostJob = () => {
       setSalaryTo("");
       setFixedSalary("");
     }
+
+    const jobData =
+      fixedSalary.length >= 4
+        ? {
+            title,
+            description,
+            category,
+            country,
+            city,
+            location,
+            fixedSalary,
+            interviewDate,
+          }
+        : {
+            title,
+            description,
+            category,
+            country,
+            city,
+            location,
+            salaryFrom,
+            salaryTo,
+            interviewDate,
+          };
+
     await axios
-      .post(
-        "http://localhost:5000/api/v1/job/post",
-        fixedSalary.length >= 4
-          ? {
-              title,
-              description,
-              category,
-              country,
-              city,
-              location,
-              fixedSalary,
-            }
-          : {
-              title,
-              description,
-              category,
-              country,
-              city,
-              location,
-              salaryFrom,
-              salaryTo,
-            },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .post("http://localhost:5000/api/v1/job/post", jobData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         toast.success(res.data.message);
       })
@@ -171,6 +175,12 @@ const PostJob = () => {
                 )}
               </div>
             </div>
+            <input
+              type="date"
+              value={interviewDate}
+              onChange={(e) => setInterviewDate(e.target.value)}
+              placeholder="Interview Date"
+            />
             <textarea
               rows="10"
               value={description}
