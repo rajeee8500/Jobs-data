@@ -175,12 +175,16 @@ const PostJob = () => {
                 )}
               </div>
             </div>
-            <input
-              type="date"
-              value={interviewDate}
-              onChange={(e) => setInterviewDate(e.target.value)}
-              placeholder="Interview Date"
-            />
+            <div className="wrapper">
+              <p>Interview Date:</p>
+              <input
+                type="date"
+                id="interviewDate"
+                value={interviewDate}
+                onChange={(e) => setInterviewDate(e.target.value)}
+                placeholder="dd-mm-yyyy"
+              />
+            </div>
             <textarea
               rows="10"
               value={description}

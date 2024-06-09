@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../main";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -30,7 +30,7 @@ const Navbar = () => {
     <nav className={isAuthorized ? "navbarShow" : "navbarHide"}>
       <div className="container">
         <div className="logo">
-          <img src="/JobZeelogo.png" alt="logo" />
+          <img src="/skillsafari.png" alt="logo" />
         </div>
         <ul className={!show ? "menu" : "show-menu menu"}>
           <li>
@@ -41,6 +41,11 @@ const Navbar = () => {
           <li>
             <Link to={"/job/getall"} onClick={() => setShow(false)}>
               ALL JOBS
+            </Link>
+          </li>
+          <li>
+            <Link to={"/job/search"} onClick={() => setShow(false)}>
+              SEARCH BY DATE
             </Link>
           </li>
           <li>
@@ -63,10 +68,7 @@ const Navbar = () => {
                 </Link>
               </li>
             </>
-          ) : (
-            <></>
-          )}
-
+          ) : null}
           <button onClick={handleLogout}>LOGOUT</button>
         </ul>
         <div className="hamburger">

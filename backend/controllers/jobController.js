@@ -155,3 +155,29 @@ export const getSingleJob = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(`Invalid ID / CastError`, 404));
   }
 });
+
+export const getJobsSortedByDate = catchAsyncErrors(async (req, res, next) => {
+  const { filter } = req.query;
+
+  let sortCriteria = {};
+  let filterCriteria = { expired: false };
+  const currentDate = new Date();
+
+  if (filter === "asc") {
+    sortCriteria = { interviewDate: 1 };
+  } else if (filter === "desc") {
+    sortCriteria = { interviewDate: -1 };
+  } else if (filter === "future") {
+    filterCriteria.interviewDate = { $gte: currentDate };
+    sortCriteria = { interviewDate: -1 };
+  } else {
+    sortCriteria = { interviewDate: -1 };
+  }
+
+  const jobs = await Job.find(filterCriteria).sort(sortCriteria);
+
+  res.status(200).json({
+    success: true,
+    jobs,
+  });
+});
