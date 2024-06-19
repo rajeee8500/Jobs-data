@@ -21,19 +21,18 @@ const SearchByDate = () => {
   return (
     <div className="searchPage">
       <div className="container">
-        <h1>Search Jobs by Interview Date</h1>
+        <h1>Search Jobs By Date</h1>
         <div className="searchForm">
           <div>
-            <label htmlFor="filter">Filter by:</label>
             <select
               id="filter"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
             >
               <option value="">Select</option>
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-              <option value="future">Future Jobs</option>
+              <option value="asc">Old Jobs</option>
+              <option value="desc">Latest Jobs</option>
+              {/* <option value="future">Future Jobs</option> */}
             </select>
           </div>
           <button onClick={handleSearch}>Search</button>

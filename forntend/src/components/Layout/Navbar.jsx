@@ -40,19 +40,19 @@ const Navbar = () => {
           </li>
           <li>
             <Link to={"/job/getall"} onClick={() => setShow(false)}>
-              ALL JOBS
+              JOBS
             </Link>
           </li>
           <li>
             <Link to={"/job/search"} onClick={() => setShow(false)}>
-              SEARCH BY DATE
+              SEARCH
             </Link>
           </li>
           <li>
             <Link to={"/applications/me"} onClick={() => setShow(false)}>
               {user && user.role === "Employer"
                 ? "APPLICANT'S APPLICATIONS"
-                : "MY APPLICATIONS"}
+                : "DASHBOARD"}
             </Link>
           </li>
           {user && user.role === "Employer" ? (
