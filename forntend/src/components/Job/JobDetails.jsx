@@ -19,7 +19,7 @@ const JobDetails = () => {
             withCredentials: true,
           }
         );
-        console.log(response.data.job); // Debugging line
+        console.log(response.data.job);
         setJob(response.data.job);
       } catch (error) {
         navigateTo("/notfound");
@@ -33,7 +33,6 @@ const JobDetails = () => {
     navigateTo("/login");
   }
 
-  // Helper function to format date to "yyyy-MM-dd"
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
     const date = new Date(dateString);
