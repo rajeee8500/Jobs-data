@@ -8,8 +8,8 @@ export const dbConnection = () => {
   mongoose
     .connect(mongoURL, {
       dbName: "SKILL_SAFARI_JOB_PORTAL",
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
     })
     .then(() => {
       console.log("Connected to database.");
